@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Gatherline — Event lead manager</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app-frame">
+  <aside class="sidebar">
+    <a class="brand" href="{{ url_for('home') }}"><span class="brand-mark"><i></i><i></i><i></i></span><b>gatherline<span>.</span></b></a>
+    <div class="workspace"><div class="workspace-avatar">G</div><div><small>WORKSPACE</small><strong>Growth team</strong></div><em>⌄</em></div>
+    <div class="nav-caption">WORKSPACE</div>
+    <nav class="side-nav" aria-label="Main navigation">
+      <button class="nav-link active" data-section="leads"><span>◉</span> Leads <b id="lead-count">0</b></button>
+      <button class="nav-link" data-section="events"><span>◫</span> Events <b id="event-count">0</b></button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="sidebar-tip">✳ <span>Make every<br>conversation count.</span></div>
+      <div class="profile-wrap">
+        <div class="profile-row"><div class="profile-avatar">JD</div><div class="profile-copy"><strong>Jordan Davis</strong><small>Team admin</small></div><button id="profile-button" class="profile-more" aria-label="Open settings" aria-expanded="false">•••</button></div>
+        <div id="settings-menu" class="settings-menu" hidden>
+          <div class="menu-heading">Workspace settings</div>
+          <button data-action="theme"><span id="theme-icon">☾</span><span id="theme-label">Dark mode</span></button>
+          <button data-action="compact"><span>▤</span><span>Compact view</span><small id="compact-state">Off</small></button>
+          <hr>
+          <button data-action="export"><span>⇩</span><span>Export visible leads</span><small>CSV</small></button>
+          <button data-action="shortcuts"><span>⌨</span><span>Keyboard shortcuts</span></button>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar"><div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumb">Leads</strong></div><div class="sync-note"><i></i> All changes saved <div class="top-avatar">JD</div></div></header>
+    <div class="page-content">
+      <div class="demo-banner">✳ <b>Local Python workspace</b><span>·</span> Changes are saved to SQLite in <code>data/leads.db</code>.</div>
+      <section class="page-heading"><div><div class="kicker">✳ <span id="kicker">YOUR NETWORK, IN MOTION</span></div><h1 id="page-title">Good things start<br>with a <i>hello.</i></h1><p id="page-subtitle">Keep the momentum from every event going.</p></div><button id="add-lead" class="button primary">＋ Add a lead</button></section>
+      <section class="stats-row"><div class="stat-card violet"><span>◎</span><strong id="total-stat">00</strong><small>Total captured</small></div><div class="stat-card amber"><span>◷</span><strong id="followup-stat">00</strong><small>Need a follow-up</small></div><div class="stat-card green"><span>◌</span><strong id="conversation-stat">00</strong><small>In conversation</small></div></section>
+      <section id="leads-section" class="content-section"><div class="section-heading"><div><h2>Your leads <b id="section-count">0</b></h2><p>A little follow-through goes a long way.</p></div><button class="text-button" data-action="refresh">Refresh →</button></div>
+        <div class="toolbar"><label class="search"><span>⌕</span><input id="search" placeholder="Search people, companies..." aria-label="Search leads"><kbd>Ctrl K</kbd></label><div class="filters"><span>≡</span><select id="event-filter"><option value="">All events</option></select><i></i><select id="status-filter"><option value="">All statuses</option>{% for status in statuses %}<option value="{{ status }}">{{ status_labels[status] }}</option>{% endfor %}</select></div></div>
+        <div id="lead-list" class="lead-list"></div>
+      </section>
+      <section id="events-section" class="content-section" hidden><div class="section-heading"><div><h2>Events <b id="events-section-count">0</b></h2><p>Contacts and follow-up progress grouped by event.</p></div><button class="text-button" data-action="refresh">Refresh →</button></div><div id="events-grid" class="events-grid"></div></section>
+      <footer>✳ Make the next hello count. <span>GATHERLINE · MADE FOR THE MOMENT AFTER</span></footer>
+    </div>
+  </main>
+</div>
+<div id="lead-modal" class="modal" hidden><div class="dialog"><button class="close" data-close="lead-modal">×</button><div class="dialog-icon">◎</div><small>KEEP THE CONNECTION WARM</small><h2 id="modal-title">Who did you meet?</h2><p>A few details now make the follow-up feel personal.</p><form id="lead-form"><input type="hidden" id="lead-id"><div class="form-grid"><label>Name<input name="name" required minlength="2"></label><label>Company<input name="company" required></label><label class="wide">Work email<input name="email" type="email" required></label><label>Event<input name="event" required list="events-list"><datalist id="events-list"></datalist></label><label>Follow-up status<select name="status">{% for status in statuses %}<option value="{{ status }}">{{ status_labels[status] }}</option>{% endfor %}</select></label><label class="wide">Conversation notes<textarea name="notes" rows="5"></textarea></label></div><div id="form-error" class="form-error"></div><div class="form-actions"><button type="button" class="button light" data-close="lead-modal">Cancel</button><button class="button primary">Save lead</button></div></form></div></div>
+<div id="shortcuts-modal" class="modal" hidden><div class="dialog narrow"><button class="close" data-close="shortcuts-modal">×</button><div class="dialog-icon">⌨</div><small>MOVE THROUGH YOUR WORK</small><h2>Keyboard shortcuts.</h2><p>A couple of quick ways to get where you need to go.</p><div class="shortcut"><span>Focus lead search</span><kbd>Ctrl K</kbd></div><div class="shortcut"><span>Close a menu or dialog</span><kbd>Esc</kbd></div></div></div>
+<div id="toast" class="toast" role="status"></div>
+<script>window.STATUS_LABELS={{ status_labels|tojson }};</script><script src="{{ url_for('static', filename='app.js') }}"></script>
+</body></html>
