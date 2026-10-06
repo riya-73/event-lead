@@ -43,6 +43,8 @@ class GatherlineBackendTests(unittest.TestCase):
         self.assertIn('data-section="events"', body)
         self.assertIn("Jordan Davis", body)
         self.assertIn("Dark mode", body)
+        self.assertIn('id="ai-modal"', body)
+        self.assertIn('id="ai-output"', body)
         self.assertNotIn("Overview", body)
 
     def test_health_endpoint_reports_seeded_database(self) -> None:
