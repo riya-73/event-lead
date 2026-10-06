@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Gatherline — Event lead manager</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css', v='d9ff96c') }}">
 </head>
 <body>
 <div class="app-frame">
@@ -49,5 +49,5 @@
 <div id="shortcuts-modal" class="modal" hidden><div class="dialog narrow"><button class="close" data-close="shortcuts-modal">×</button><div class="dialog-icon">⌨</div><small>MOVE THROUGH YOUR WORK</small><h2>Keyboard shortcuts.</h2><p>A couple of quick ways to get where you need to go.</p><div class="shortcut"><span>Focus lead search</span><kbd>Ctrl K</kbd></div><div class="shortcut"><span>Close a menu or dialog</span><kbd>Esc</kbd></div></div></div>
 <div id="ai-modal" class="modal" hidden><div class="dialog narrow"><button class="close" data-close="ai-modal">×</button><div class="dialog-icon">✦</div><small>A LITTLE HELP FROM AI</small><h2 id="ai-title">AI follow-up assistant</h2><p id="ai-subtitle"></p><div id="ai-output" class="ai-output"></div><div class="form-actions"><button class="button light" data-close="ai-modal">Close</button><button id="ai-save" class="button primary">Save to lead</button></div></div></div>
 <div id="toast" class="toast" role="status"></div>
-<script>window.STATUS_LABELS={{ status_labels|tojson }};</script><script src="{{ url_for('static', filename='app.js') }}"></script>
+<script>window.STATUS_LABELS={{ status_labels|tojson }};</script><script src="{{ url_for('static', filename='app.js', v='2292703') }}"></script>
 </body></html>
