@@ -45,6 +45,13 @@ class GatherlineBackendTests(unittest.TestCase):
         self.assertIn("Dark mode", body)
         self.assertNotIn("Overview", body)
 
+    def test_health_endpoint_reports_seeded_database(self) -> None:
+        response = self.client.get("/api/health")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get_json()["status"], "ok")
+        self.assertEqual(response.get_json()["database"], "sqlite")
+        self.assertEqual(response.get_json()["leadCount"], 9)
+
     def test_database_initializes_and_seeds_sample_leads(self) -> None:
         leads = self.get_leads()
         self.assertEqual(len(leads), 9)

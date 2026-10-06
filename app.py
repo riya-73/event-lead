@@ -117,17 +117,16 @@ def connect() -> Any:
 
 
 _init_lock = threading.Lock()
-_initialized = False
 
 
 def init_db() -> None:
-    """Create the table and seed sample data once per process, not once per request."""
-    global _initialized
-    if _initialized:
-        return
+    """Create the schema and seed sample data when the configured database is empty.
+
+    This is intentionally idempotent and runs on every new connection lifecycle.
+    That matters on Vercel because serverless instances are ephemeral, and it also
+    keeps local test databases reliable when their files are recreated.
+    """
     with _init_lock:
-        if _initialized:
-            return
         conn = connect()
         try:
             run(conn, SCHEMA)
@@ -142,7 +141,12 @@ def init_db() -> None:
             raise
         finally:
             conn.close()
-        _initialized = True
+
+
+def db() -> Any:
+    """Compatibility helper for scripts/tests that need a managed initialized connection."""
+    init_db()
+    return connect()
 
 
 @contextmanager
@@ -273,6 +277,18 @@ def home():
         status_labels=STATUS_LABELS,
         database_mode="Neon PostgreSQL" if postgres_enabled() else "local SQLite",
     )
+
+
+@app.get("/api/health")
+def health_api():
+    try:
+        with get_db() as conn:
+            row = run(conn, "SELECT COUNT(*) AS row_count FROM leads").fetchone()
+            lead_count = row["row_count"]
+        return jsonify({"status": "ok", "database": "postgres" if postgres_enabled() else "sqlite", "leadCount": lead_count})
+    except Exception:
+        app.logger.exception("Health check failed")
+        return jsonify({"status": "error", "error": "Database is unavailable."}), 503
 
 
 @app.get("/api/leads")
