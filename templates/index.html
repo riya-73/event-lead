@@ -33,7 +33,7 @@
   <main class="main-area">
     <header class="topbar"><div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumb">Leads</strong></div><div class="sync-note"><i></i> All changes saved <div class="top-avatar">JD</div></div></header>
     <div class="page-content">
-      <div class="demo-banner">✳ <b>Local Python workspace</b><span>·</span> Changes are saved to SQLite in <code>data/leads.db</code>.</div>
+      <div class="demo-banner">✳ <b>{{ database_mode }}</b><span>·</span> Lead data is persisted server-side. AI actions stay server-side too.</div>
       <section class="page-heading"><div><div class="kicker">✳ <span id="kicker">YOUR NETWORK, IN MOTION</span></div><h1 id="page-title">Good things start<br>with a <i>hello.</i></h1><p id="page-subtitle">Keep the momentum from every event going.</p></div><button id="add-lead" class="button primary">＋ Add a lead</button></section>
       <section class="stats-row"><div class="stat-card violet"><span>◎</span><strong id="total-stat">00</strong><small>Total captured</small></div><div class="stat-card amber"><span>◷</span><strong id="followup-stat">00</strong><small>Need a follow-up</small></div><div class="stat-card green"><span>◌</span><strong id="conversation-stat">00</strong><small>In conversation</small></div></section>
       <section id="leads-section" class="content-section"><div class="section-heading"><div><h2>Your leads <b id="section-count">0</b></h2><p>A little follow-through goes a long way.</p></div><button class="text-button" data-action="refresh">Refresh →</button></div>
